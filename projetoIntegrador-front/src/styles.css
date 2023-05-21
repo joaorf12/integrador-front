@@ -1,0 +1,17 @@
+@import 'ngx-toastr/toastr';
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: Arial, sans-serif;
+}/* You can add global styles to this file, and also import other style files */
+
+:root {
+  --color1: #313131;
+  --color2: #846b07;
+}
+
+body {
+  background-color: #313131;
+}

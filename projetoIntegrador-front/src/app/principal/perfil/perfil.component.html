@@ -1,0 +1,125 @@
+<div id="container">
+  <h1>Seu perfil</h1>
+  <div id="caixa-perfil">
+    <div id="informacoes">
+      <div class="imgPerfil-perfil" [ngStyle]="{'background-image': 'url(assets/img/' + usuario.foto + ')'}">
+        <img src="assets/img/icon-pen.png" alt="Alterar foto de perfil" class="icon-pen-perfil">
+        <!--      <img src="assets/img/perfil.jpg" alt="Foto de perfil">-->
+      </div>
+      <div class="informacoes">
+        <p><b>{{usuario.nome}}</b><img src="assets/img/icon-pen.png" alt="Alterar nome" class="icon-pen"></p>
+        <p><b>Email:</b> {{usuario.email}}<img src="assets/img/icon-pen.png" alt="Alterar email" class="icon-pen"></p>
+        <a><b>Editar senha</b><img src="assets/img/icon-pen.png" alt="Alterar senha" class="icon-pen"></a>
+        <a class="desativar"><b>Desativar conta</b><img src="assets/img/icon-trash.png" alt="desatviar conta"
+                                                        class="icon-pen"></a>
+      </div>
+    </div>
+  </div>
+  <h1 style="margin-top: 20px">Seus livros</h1>
+  <div id="caixa-livros">
+    <div *ngIf="livros.length === 0; else temLivros">
+      <h4>Você não publicou nenhum livro</h4>
+    </div>
+    <ng-template #temLivros class="livros">
+      <div class="busca">
+        <input type="text" id="txtBusca" placeholder="Pesquise aqui..."/>
+        <img src="assets/img/icon-pesquisa.webp" id="iconBusca" alt="Buscar"/>
+      </div>
+      <div id="livrosPrateleira">
+        <div *ngFor="let livro of livros" id="livros-prateleira" (mouseleave)="showDropbox(dropbox, false)">
+          <img src="assets/img/{{livro.capa}}" class="capa-livro" alt="Capa do livro {{livro.nome}}"
+               (click)="mudarParaLivro(livro)">
+          <h5 class="tituloLivro" (click)="mudarParaLivro(livro)">{{livro.nome}}</h5>
+          <img src="assets/img/icon-ops.png" id="iconOps" alt="Opções" (mouseenter)="showDropbox(dropbox, true)"/>
+          <div class="dropbox" #dropbox (mouseleave)="showDropbox(dropbox, false)">
+            <a (click)="baixarLivro(livro)">Baixar</a>
+            <span class="line"></span>
+            <a (click)="excluirLivro(livro)">Excluir</a>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+  <button class="btn-add" (click)="showPopup(popupCad, true, null)">Adicionar novo livro +</button>
+  <div id="popupCadLivro" #popupCad>
+    <form (ngSubmit)="f.form.valid && cadastrarLivro(popupCad, f)" #f="ngForm" novalidate class="form">
+      <p class="labelFalsos">Imagem da capa do livro:</p>
+      <br>
+      <label class="inputFiles capa" for="capa" [ngClass]="{
+                  'is-invalid-label': f.submitted && !pdf}">Selecionar imagem</label>
+      <br>
+      <input name="capa" type="file"
+             required id="capa" aria-describedby="capa" placeholder="Selecione a capa do livro"
+             (change)="inputCapaFile($event)" accept="image/png, image/jpeg">
+      <br>
+      <p class="labelFalsos">PDF do livro:</p>
+      <br>
+      <label class="inputFiles pdf" for="pdf" [ngClass]="{
+                  'is-invalid-label': f.submitted && !pdf}">Selecionar PDF</label>
+      <br>
+      <input name="pdf" type="file"
+             required id="pdf" aria-describedby="pdf" placeholder="Selecione um aquivo PDF"
+             (change)="inputPDFFile($event)" accept="application/pdf">
+      <br>
+      <label for="nome">Nome:</label>
+      <br>
+      <input [(ngModel)]="livro.nome" name="nome" type="text" #nome="ngModel"
+             required id="nome" aria-describedby="nome" placeholder="Informe o nome do livro"
+             [ngClass]="{
+                  'is-invalid': f.submitted && nome.invalid}">
+      <div *ngIf="nome.invalid && f.submitted">
+        <p class="text-invalid">O nome do livro é obrigatório!</p>
+      </div>
+      <br>
+      <label for="nome">Ano de publicação:</label>
+      <br>
+      <input [(ngModel)]="livro.ano_publi" name="ano_publi" type="number" min="0" #ano_publi="ngModel"
+             required id="ano_publi" aria-describedby="ano_publi" placeholder="Informe a data de publicação"
+             [ngClass]="{
+                  'is-invalid': f.submitted && ano_publi.invalid}">
+      <div *ngIf="ano_publi.invalid && f.submitted">
+        <p class="text-invalid">O ano de publicação do livro é obrigatório!</p>
+      </div>
+      <br>
+      <label for="nome">Número de páginas:</label>
+      <br>
+      <input [(ngModel)]="livro.num_pag" name="num_pag" type="number" min="0" #num_pag="ngModel"
+             required id="num_pag" aria-describedby="num_pag" placeholder="Informe o número de páginas"
+             [ngClass]="{
+                  'is-invalid': f.submitted && num_pag.invalid}">
+      <div *ngIf="num_pag.invalid && f.submitted">
+        <p class="text-invalid">O número de páginas do livro é obrigatório!</p>
+      </div>
+      <br>
+      <label for="nome">Autor(es):</label>
+      <br>
+      <input [(ngModel)]="livro.autor" name="autor" type="text" #autor="ngModel"
+             required id="autor" aria-describedby="autor" placeholder="Informe o(s) autor(res)"
+             [ngClass]="{
+                  'is-invalid': f.submitted && autor.invalid}">
+      <div *ngIf="autor.invalid && f.submitted">
+        <p class="text-invalid">Os autores do livro são obrigatórios!</p>
+      </div>
+      <br>
+      <label for="genero">Genêro(s):</label>
+      <br>
+      <input [(ngModel)]="livro.genero" name="genero" type="text" #genero="ngModel"
+             required id="genero" aria-describedby="genero" placeholder="Informe o(s) genêro(s)"
+             [ngClass]="{
+                  'is-invalid': f.submitted && genero.invalid}">
+      <div *ngIf="genero.invalid && f.submitted">
+        <p class="text-invalid">Os genêros do livro são obrigatórios!</p>
+      </div>
+      <div class="class-concorda">
+        <input type="checkbox" class="concorda" (change)="changeButton()"
+               [ngClass]="{
+                  'is-invalid': f.submitted && !concorda}">
+        <label class="concorda-label">Você concorda que ao cadastrar esse livro, será responsabilizado pelo mesmo.</label>
+      </div>
+      <br>
+      <button type="submit" class="btn-cadastrar">Cadastrar</button>
+      <button type="reset" (click)="showPopup(popupCad, false, f)" class="btn-voltar">Voltar</button>
+    </form>
+  </div>
+</div>
+

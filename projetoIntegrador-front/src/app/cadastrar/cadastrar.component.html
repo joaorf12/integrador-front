@@ -1,0 +1,33 @@
+<div id="body">
+  <div id="container">
+    <img src="./assets/img/logoProjeto.png" class="logo">
+    <h1>
+      BookIntegrator
+    </h1>
+    <form (ngSubmit)="f.form.valid && saveCadastro(f)" #f="ngForm" novalidate class="form">
+      <label for="nome">Nome:</label>
+      <br>
+      <input [(ngModel)]="usuario.nome" name="nome" type="text" #nome="ngModel"
+             required id="nome" aria-describedby="nome" placeholder="Informe seu nome">
+      <label for="email">Email:</label>
+      <br>
+      <input [(ngModel)]="usuario.email" name="email" type="email" #email="ngModel"
+             required id="email" aria-describedby="email" placeholder="Informe seu email">
+      <label for="email">Senha:</label>
+      <br>
+      <input [(ngModel)]="usuario.senha" name="senha" type="password" #senha="ngModel"
+             required id="senha" aria-describedby="senha" placeholder="Informe sua senha">
+      <input type="checkbox" class="ver-senha">
+      <label class="ver-senha-label">Ver senha</label>
+      <br>
+      <br>
+      <br>
+      <button type="submit" class="btn-cadastrar">Cadastrar-se</button>
+      <br>
+      <button (click)="voltar()" class="btn-voltar">Voltar</button>
+
+    </form>
+  </div>
+</div>
+
+

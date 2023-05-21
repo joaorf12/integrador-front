@@ -1,0 +1,84 @@
+nav{
+  background-color: #585858;
+  box-shadow: 4px 4px 15px 2px rgba(0, 0, 0, 0.25);
+}
+#nav-superior{
+  background-color: #3C3C3C;
+  height: 6em;
+
+}
+.logo{
+  width: 3em;
+  height: 3em;
+  float: left;
+  margin: 30px;
+}
+h2{
+  color: #ffffff;
+  padding-top: 1.5em;
+  display: inline-flex;
+}
+.opPerfil{
+  float: right;
+  margin: 20px;
+  margin-top: 10px;
+  margin-bottom: 0;
+  font-family: Arial, SansSerif;
+  font-size: 18px;
+  color: #ffffff;
+  text-align: center;
+}
+.imgPerfil{
+  width: 3em;
+  height: 3em;
+  border-radius: 30px;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+.nome{
+  color: #ffffff;
+  margin-right: 10px;
+  transition-duration: 0.4s;
+}
+.opSair{
+  text-decoration: underline;
+  transition-duration: 0.4s;
+}
+.nome:hover, .opSair:hover{
+  cursor: pointer;
+  color: #A5A5A5;
+  font-size: 20px;
+}
+#nav-inferior{
+  margin: 0;
+  clear: both;
+}
+li{
+  font-size: 16px;
+  font-family: Arial, SansSerif;
+  list-style: none;
+}
+.ops-nav{
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: 50px;
+  margin-right: 50px;
+  padding: 10px;
+  padding-top: 0;
+
+}
+.ops-nav a{
+  color: #ffffff;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+.ops-nav a:hover{
+  background-color: #3C3C3C;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+.selected{
+  background-image: linear-gradient(to bottom, #3C3C3C, rgba(0,0,0,0.19));
+}

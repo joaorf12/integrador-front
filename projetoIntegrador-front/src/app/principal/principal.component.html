@@ -1,0 +1,22 @@
+<nav>
+  <div id="nav-superior">
+    <img src="assets/img/logoProjeto.png" class="logo">
+    <h2>BookIntegrator</h2>
+    <div class="opPerfil">
+      <img src="assets/img/{{usuarioLogado.foto}}" class="imgPerfil">
+      <br>
+      <a class="nome">{{usuarioLogado.nome}}</a>
+      <a class="opSair" (click)="sair()">Sair</a>
+    </div>
+  </div>
+  <div id="nav-inferior">
+    <ul class="ops-nav">
+      <li><a aria-current="page" routerLink="/principal/prateleira" routerLinkActive="selected">Prateleira</a></li>
+      <li><a aria-current="page" routerLink="/principal/livros" routerLinkActive="selected">Livros</a></li>
+<!--      <li><a aria-current="page" routerLink="/principal/meusLivros" routerLinkActive="selected">Meus Livros</a></li>-->
+      <li><a aria-current="page" routerLink="/principal/perfil" routerLinkActive="selected">Meu Perfil</a></li>
+      <li><a aria-current="page" routerLink="/principal/pessoas" routerLinkActive="selected">Pessoas</a></li>
+    </ul>
+  </div>
+</nav>
+<router-outlet></router-outlet>
