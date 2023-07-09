@@ -6,22 +6,31 @@
     </h1>
     <form (ngSubmit)="f.form.valid && saveLogin(f)" #f="ngForm" novalidate class="form">
 
-        <label for="email">Email:</label>
-        <br>
-        <input [(ngModel)]="usuario.email" name="email" type="email" #email="ngModel"
-               required id="email" aria-describedby="email" placeholder="Entre com seu email">
-        <label for="email">Senha:</label>
-        <br>
-        <input [(ngModel)]="usuario.senha" name="senha" type="password" #senha="ngModel"
-               required id="senha" aria-describedby="senha" placeholder="Digite sua senha">
-        <div>
-          <input type="checkbox" class="ver-senha">
-          <label class="ver-senha-label">Ver senha</label>
-        </div>
+      <label for="email">Email:</label>
       <br>
-      <button type="submit" class="btn-logar">Entrar</button>
+      <input [(ngModel)]="usuario.email" name="email" type="email" #email="ngModel"
+             required id="email" aria-describedby="email" placeholder="Entre com seu email" [ngClass]="{
+                  'is-invalid': f.submitted && email.invalid}">
+      <div *ngIf="email.invalid && f.submitted">
+        <p class="text-invalid">O email é obrigatório!</p>
+      </div>
+      <label for="email">Senha:</label>
       <br>
-      <button (click)="cadastrar()" class="btn-cadastrar">Cadastrar-se</button>
+      <input [(ngModel)]="usuario.senha" name="senha" type="password" #inputVerSenha #senha="ngModel"
+             required id="senha" aria-describedby="senha" placeholder="Digite sua senha" [ngClass]="{
+                  'is-invalid': f.submitted && senha.invalid}">
+      <div *ngIf="senha.invalid && f.submitted">
+        <p class="text-invalid">A senha é obrigatória!</p>
+      </div>
+      <div>
+        <input type="checkbox" class="ver-senha" (change)="verSenha(inputVerSenha)">
+        <label class="ver-senha-label">Ver senha</label>
+      </div>
+      <br>
+      <div class="btns">
+        <button type="submit" class="btn-logar">Entrar</button>
+        <button (click)="cadastrar()" class="btn-cadastrar">Cadastrar-se</button>
+      </div>
     </form>
   </div>
 </div>

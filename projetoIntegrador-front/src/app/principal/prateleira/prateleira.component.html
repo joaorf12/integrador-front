@@ -1,26 +1,25 @@
 <div id="container">
   <h1>Sua prateleira</h1>
   <div id="caixa-livros">
-    <div *ngIf="livros.length === 0; else temLivros">
+    <div *ngIf="allLivros.length === 0; else temLivros">
       <h4>Sua prateleira está vazia</h4>
     </div>
     <ng-template #temLivros class="livros">
       <div class="busca">
-        <input type="text" id="txtBusca" placeholder="Pesquise aqui..."/>
+        <input type="text" id="txtBusca" placeholder="Pesquise aqui..." (input)="pesquisa($event)"/>
         <img src="assets/img/icon-pesquisa.webp" id="iconBusca" alt="Buscar"/>
       </div>
       <div id="livrosPrateleira">
         <div *ngFor="let livro of livros" id="livros-prateleira" (mouseleave)="showDropbox(dropbox, false)" >
-          <img src="assets/img/{{livro.imagem}}" class="capa-livro" (click)="mudarParaLivro(livro)">
+          <img src="assets/img/{{livro.capa}}" class="capa-livro" (click)="mudarParaLivro(livro)">
           <h5 class="tituloLivro" (click)="mudarParaLivro(livro)">{{livro.nome}}</h5>
           <h5 class="statusLivro">{{livro.status}}
             <img src="assets/img/icon-ops.png" id="iconOps" alt="Opções" (mouseenter)="showDropbox(dropbox, true)"/>
           </h5>
           <div class="dropbox" #dropbox (mouseleave)="showDropbox(dropbox, false)">
-            <a href="http://localhost:8080">sadasfas</a>
-            <p>sadasfasd</p>
-            <a href="http://localhost:8080">sadasfasd</a>
-            <a href="http://localhost:8080">sadasfasd</a>
+            <a (click)="baixarLivro(livro)" style="margin-left: 20%">Baixar</a>
+            <span class="line"></span>
+            <a (click)="excluir(livro)">Excluir da prateleira</a>
           </div>
         </div>
       </div>

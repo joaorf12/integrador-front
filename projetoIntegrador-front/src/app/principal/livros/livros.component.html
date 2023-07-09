@@ -1,19 +1,19 @@
 <div id="container">
   <h1>Livros disponiveis</h1>
   <div id="caixa-livros">
-    <div *ngIf="livros.length === 0; else temLivros">
+    <div *ngIf="allLivros.length === 0; else temLivros">
       <h4>Sem livros publicados</h4>
     </div>
     <ng-template #temLivros class="livros">
       <div class="busca">
-        <input type="text" id="txtBusca" placeholder="Pesquise aqui..."/>
+        <input type="text" id="txtBusca" placeholder="Pesquise aqui..." (input)="pesquisa($event)"/>
         <img src="assets/img/icon-pesquisa.webp" id="iconBusca" alt="Buscar"/>
       </div>
       <div id="livrosPrateleira">
         <div *ngFor="let livro of livros; index as i" id="livros-prateleira">
           <img src="assets/img/{{livro.capa}}" class="capa-livro" alt="Capa do Livro {{livro.nome}}" (click)="mudarParaLivro(livro)">
           <h5 class="tituloLivro" (click)="mudarParaLivro(livro)">{{livro.nome}}</h5>
-          <img src="assets/img/{{returnInteresse(livro.interesse)}}" (click)="mudarInteresse(livro, marcador)" id="iconOps" #marcador alt="Interesse"/>
+          <img *ngIf="livro.status == undefined || livro.status === 'interesse'" src="assets/img/{{returnInteresse(livro.status)}}" (click)="mudarInteresse(livro, marcador)" id="iconOps" #marcador alt="Interesse"/>
         </div>
       </div>
     </ng-template>

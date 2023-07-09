@@ -22,7 +22,7 @@ export class AuthGuardService implements CanActivate{
       else if (state.url.endsWith('cadastrar')){
         return true;
       }
-
+      this.router.navigate(['login'])
     }
     else {
       if (state.url.endsWith('login')){

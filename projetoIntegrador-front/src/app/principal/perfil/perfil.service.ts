@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpEvent} from "@angular/common/http";
 import {Usuario} from "../../model/usuario";
 import {Observable} from "rxjs";
 import {Livro} from "../../model/livro";
+import {Prateleira} from "../../model/prateleira";
+import {PrateleiraLivro} from "../../model/prateleiraLivro";
+import {Senha} from "../../model/senha";
 
 @Injectable({
   providedIn: 'root'
@@ -30,8 +33,35 @@ export class PerfilService {
     return this.http.post<string>(this.API_BACK+"livro/pdf", formData);
   }
 
-  listar(id: number){
-    return this.http.get<Livro[]>(this.API_BACK+"livro/livros/"+id);
+  listarMyLivros(id: number){
+    return this.http.get<Livro[]>(this.API_BACK+"livro/livros/myLivros/"+id);
+  }
+
+  listarTheyLivros(id_pessoa: number, id_livroPessoa: number){
+    return this.http.get<Livro[]>(this.API_BACK+"livro/livros/visitar/"+id_livroPessoa+"/"+id_pessoa);
+  }
+
+  mudarInteresse(prateleiraLivro: PrateleiraLivro) : Observable<Prateleira>{
+    return this.http.post<Prateleira>(this.API_BACK+"prateleira/interesse", prateleiraLivro);
+  }
+
+  cadastrarFoto(formData: FormData): Observable<any>{
+    return this.http.post<any>(this.API_BACK+"usuario/foto", formData);
+  }
+
+  editarPerfil(usuario: Usuario) : Observable<HttpEvent<Usuario>> {
+    return this.http.post<Usuario>(this.API_BACK+"usuario/editar", usuario, {
+      observe: 'events',
+      reportProgress: true
+    });
+  }
+
+  desativarPerfil(usuario: Usuario) : Observable<Usuario> {
+    return  this.http.post<Usuario>(this.API_BACK+"usuario/desativar", usuario)
+  }
+
+  editarSenha(senha: Senha) : Observable<number> {
+    return this.http.post<number>(this.API_BACK+"usuario/senha", senha)
   }
 
 }

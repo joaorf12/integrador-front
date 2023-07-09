@@ -62,8 +62,8 @@ input:focus{
 .ver-senha{
   margin: 0;
   border: none;
-  width: 10%;
-  height: 10%;
+  width: 20px;
+  height: auto;
   float: left;
 
   background: #D9D9D9;
@@ -74,13 +74,15 @@ input:focus{
   float: left;
   font-size: 16px;
 }
+.btns{
+  display: inline-flex;
+  width: 100%;
+}
 .btn-cadastrar{
-  clear: both;
   color: #ffffff;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 0;
-  width: 50%;
+  width: 40%;
   height: auto;
   font-size: 16px;
   padding: 10px 10px;
@@ -94,12 +96,10 @@ input:focus{
 }
 
 .btn-voltar{
-  clear: both;
   color: #ffffff;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 20px;
-  width: 50%;
+  width: 40%;
   height: auto;
   font-size: 16px;
   padding: 10px 10px;
@@ -120,4 +120,15 @@ input:focus{
 .btn-cadastrar:hover{
   background-color: dodgerblue;
   scale: 1.2;
+}
+
+.is-invalid{
+  outline: 2px solid #ff5759;
+  margin-bottom: 10px;
+}
+
+.text-invalid{
+  width: auto;
+  color: #ff5759;
+  margin-bottom: 10px;
 }

@@ -9,7 +9,8 @@
         <p><b>Autores: </b>{{livro.autor}}</p>
         <p><b>Ano de publicação: </b>{{livro.ano_publi}}</p>
         <p><b>Gênero: </b>{{livro.genero}}</p>
-        <p><b>Número de páginas: </b>{{livro.num_pag}}<!--<img src="assets/img/icon-pen.png" alt="Alterar email" class="icon-pen">--></p>
+        <p><b>Número de páginas: </b>{{livro.num_pag}}</p>
+        <p><b>Ultima atualização: </b>{{returnDate(livro.dt_ult_atualizacao)}}</p>
       </div>
     </div>
     <div class="informacoes-direita">
@@ -33,6 +34,7 @@
           <p><b>Ano de publicação: </b>{{livro.ano_publi}}</p>
           <p><b>Gênero: </b>{{livro.genero}}</p>
           <p><b>Número de páginas: </b>{{livro.num_pag}}</p>
+          <p><b>Ultima atualização: </b>{{returnDate(livro.dt_ult_atualizacao)}}</p>
         </div>
       </div>
       <div class="informacoes-direita">
@@ -40,15 +42,17 @@
         <p class="avaliacao"><b>Avaliação: </b>{{livro.avaliacao}}</p>
         <p class="avaliar"><b>Avaliar</b></p>
         <p class="stars">
-          <img class="star" #star1 src="assets/img/icon-star-vazio.png" (mouseenter)="MudaEstrela([star1], true)" (mouseleave)="MudaEstrela([star1], false)" (click)="avaliar(1)" alt="Uma estrela">
-          <img class="star" #star2 src="assets/img/icon-star-vazio.png" (mouseenter)="MudaEstrela([star1, star2], true)" (mouseleave)="MudaEstrela([star1, star2], false)" (click)="avaliar(2)" alt="Duas estrela">
-          <img class="star" #star3 src="assets/img/icon-star-vazio.png" (mouseenter)="MudaEstrela([star1, star2, star3], true)" (mouseleave)="MudaEstrela([star1, star2, star3], false)" (click)="avaliar(3)" alt="Três estrela">
-          <img class="star" #star4 src="assets/img/icon-star-vazio.png" (mouseenter)="MudaEstrela([star1, star2, star3, star4], true)" (mouseleave)="MudaEstrela([star1, star2, star3, star4], false)" (click)="avaliar(4)" alt="Quatro estrela">
-          <img class="star" #star5 src="assets/img/icon-star-vazio.png" (mouseenter)="MudaEstrela([star1, star2, star3, star4, star5], true)" (mouseleave)="MudaEstrela([star1, star2, star3, star4, star5], false)" (click)="avaliar(5)" alt="Cinco estrela">
+          <img class="star" #star1 src="assets/img/icon-star-vazio.png" (mouseenter)="MudaEstrela([star1], true)" (mouseleave)="preencherEstrelas()" (click)="avaliar(1)" alt="Uma estrela">
+          <img class="star" #star2 src="assets/img/icon-star-vazio.png" (mouseenter)="MudaEstrela([star1, star2], true)" (mouseleave)="preencherEstrelas()" (click)="avaliar(2)" alt="Duas estrela">
+          <img class="star" #star3 src="assets/img/icon-star-vazio.png" (mouseenter)="MudaEstrela([star1, star2, star3], true)" (mouseleave)="preencherEstrelas()" (click)="avaliar(3)" alt="Três estrela">
+          <img class="star" #star4 src="assets/img/icon-star-vazio.png" (mouseenter)="MudaEstrela([star1, star2, star3, star4], true)" (mouseleave)="preencherEstrelas()" (click)="avaliar(4)" alt="Quatro estrela">
+          <img class="star" #star5 src="assets/img/icon-star-vazio.png" (mouseenter)="MudaEstrela([star1, star2, star3, star4, star5], true)" (mouseleave)="preencherEstrelas()" (click)="avaliar(5)" alt="Cinco estrela">
         </p>
       </div>
       <div class="botoes">
         <button (click)="baixarPDF()">Baixar</button>
+        <button [hidden]="btnHidden()" #btn (click)="mudarLido(btn)">Lido</button>
+        <button *ngIf="usuario.permissao.id == 1" class="btn-excluir" (click)="excluirLivro(livro)">Excluir</button>
       </div>
     </div>
   </ng-template>
@@ -102,7 +106,7 @@
       <br>
       <label for="nome">Nome:</label>
       <br>
-      <input [(ngModel)]="livro.nome" name="nome" type="text" #nome="ngModel"
+      <input [(ngModel)]="livroForEdit.nome" name="nome" type="text" #nome="ngModel"
              required id="nome" aria-describedby="nome" placeholder="Informe o nome do livro"
              [ngClass]="{
                   'is-invalid': f.submitted && nome.invalid}">
@@ -112,7 +116,7 @@
       <br>
       <label for="nome">Ano de publicação:</label>
       <br>
-      <input [(ngModel)]="livro.ano_publi" name="ano_publi" type="number" min="0" #ano_publi="ngModel"
+      <input [(ngModel)]="livroForEdit.ano_publi" name="ano_publi" type="number" min="0" #ano_publi="ngModel"
              required id="ano_publi" aria-describedby="ano_publi" placeholder="Informe a data de publicação"
              [ngClass]="{
                   'is-invalid': f.submitted && ano_publi.invalid}">
@@ -122,7 +126,7 @@
       <br>
       <label for="nome">Número de páginas:</label>
       <br>
-      <input [(ngModel)]="livro.num_pag" name="num_pag" type="number" min="0" #num_pag="ngModel"
+      <input [(ngModel)]="livroForEdit.num_pag" name="num_pag" type="number" min="0" #num_pag="ngModel"
              required id="num_pag" aria-describedby="num_pag" placeholder="Informe o número de páginas"
              [ngClass]="{
                   'is-invalid': f.submitted && num_pag.invalid}">
@@ -132,7 +136,7 @@
       <br>
       <label for="nome">Autor(es):</label>
       <br>
-      <input [(ngModel)]="livro.autor" name="autor" type="text" #autor="ngModel"
+      <input [(ngModel)]="livroForEdit.autor" name="autor" type="text" #autor="ngModel"
              required id="autor" aria-describedby="autor" placeholder="Informe o(s) autor(res)"
              [ngClass]="{
                   'is-invalid': f.submitted && autor.invalid}">
@@ -142,7 +146,7 @@
       <br>
       <label for="genero">Genêro(s):</label>
       <br>
-      <input [(ngModel)]="livro.genero" name="genero" type="text" #genero="ngModel"
+      <input [(ngModel)]="livroForEdit.genero" name="genero" type="text" #genero="ngModel"
              required id="genero" aria-describedby="genero" placeholder="Informe o(s) genêro(s)"
              [ngClass]="{
                   'is-invalid': f.submitted && genero.invalid}">

@@ -14,7 +14,7 @@ export class Livro{
   pdf?: string;
   imagem?: string;
   num_download?: number;
-  avaliacao?: number;
+  avaliacao?: string;
   usuario!: Usuario;
   status!: string;
   dt_ult_atualizacao!: Date;

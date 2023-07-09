@@ -9,4 +9,5 @@ export class Usuario{
   ativo!: boolean | undefined;
   token!: boolean | undefined;
   foto!: string;
+  oldFoto!: string | undefined;
 }

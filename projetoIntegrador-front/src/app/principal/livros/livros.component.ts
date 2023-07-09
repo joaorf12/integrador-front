@@ -2,6 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {Livro} from "../../model/livro";
 import {Router} from "@angular/router";
 import {LivrosService} from "./livros.service";
+import {PrateleiraLivro} from "../../model/prateleiraLivro";
+import {PrincipalComponent} from "../principal.component";
+import {PerfilService} from "../perfil/perfil.service";
+import {Usuario} from "../../model/usuario";
 
 @Component({
   selector: 'app-livros',
@@ -12,24 +16,33 @@ export class LivrosComponent implements OnInit{
 
   livros: Livro[] = []
 
-  constructor(private  router: Router, private service: LivrosService) {
+  allLivros: Livro[] = []
+
+  usuario: Usuario = new Usuario();
+
+  constructor(private  router: Router, private service: LivrosService, private principal: PrincipalComponent,
+              private perfilService: PerfilService) {
   }
 
   ngOnInit(): void {
+    this.usuario = this.principal.usuarioLogado;
     this.listar();
   }
 
   listar(){
-    this.service.listar().subscribe((dados)=>{
-      this.livros = dados;
+    this.service.listar(this.usuario.id).subscribe((dados)=>{
+      this.allLivros = dados;
+      this.livros = this.allLivros.filter(livro => {
+        return livro.usuario.id != this.usuario.id
+      });
     })
   }
 
-  returnInteresse(interesse: boolean){
-    switch (interesse) {
-      case true:
+  returnInteresse(status: string){
+    switch (status) {
+      case "interesse":
         return "icon-marcador-cheio.png"
-      case false:
+      case "":
         return "icon-marcador-vazio.png"
       default:
         return "icon-marcador-vazio.png"
@@ -38,14 +51,26 @@ export class LivrosComponent implements OnInit{
 
   mudarInteresse(livro: Livro, marcador: HTMLDivElement){
     if(marcador){
-      if (livro.interesse) {
-        livro.interesse = false;
-        marcador.setAttribute('src', "assets/img/icon-marcador-vazio.png");
-      } else if (!livro.interesse) {
-        livro.interesse = true;
-        marcador.setAttribute('src', "assets/img/icon-marcador-cheio.png");
-      }
+        const prateleiraLivro: PrateleiraLivro = new PrateleiraLivro();
+        prateleiraLivro.id_livro = livro.id
+        prateleiraLivro.id_pessoa = this.principal.usuarioLogado.id
+        this.perfilService.mudarInteresse(prateleiraLivro).subscribe((res) =>{
+          if (livro.status === "interesse") {
+            marcador.setAttribute('src', "assets/img/icon-marcador-vazio.png");
+          } else {
+            marcador.setAttribute('src', "assets/img/icon-marcador-cheio.png");
+          }
+        })
     }
+  }
+
+  pesquisa(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const value = target.value;
+
+    this.livros = this.allLivros.filter(livro => {
+      return livro.nome.toLowerCase().includes(value.toLowerCase());
+    })
   }
 
   mudarParaLivro(livro: Livro){

@@ -37,4 +37,11 @@ export class CadastrarComponent implements OnInit{
   voltar(): void{
     this.router.navigate(['/login'])
   }
+
+  verSenha(input: HTMLInputElement){
+    if(input.type == "text")
+      input.type = "password"
+    else
+      input.type = "text"
+  }
 }

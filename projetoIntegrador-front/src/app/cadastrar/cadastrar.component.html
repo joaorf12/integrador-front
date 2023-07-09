@@ -8,24 +8,36 @@
       <label for="nome">Nome:</label>
       <br>
       <input [(ngModel)]="usuario.nome" name="nome" type="text" #nome="ngModel"
-             required id="nome" aria-describedby="nome" placeholder="Informe seu nome">
+             required id="nome" aria-describedby="nome" placeholder="Informe seu nome" [ngClass]="{
+                  'is-invalid': f.submitted && nome.invalid}">
+      <div *ngIf="nome.invalid && f.submitted">
+        <p class="text-invalid">O nome é obrigatório!</p>
+      </div>
       <label for="email">Email:</label>
       <br>
       <input [(ngModel)]="usuario.email" name="email" type="email" #email="ngModel"
-             required id="email" aria-describedby="email" placeholder="Informe seu email">
+             required id="email" aria-describedby="email" placeholder="Informe seu email" [ngClass]="{
+                  'is-invalid': f.submitted && email.invalid}">
+      <div *ngIf="email.invalid && f.submitted">
+        <p class="text-invalid">O email é obrigatório!</p>
+      </div>
       <label for="email">Senha:</label>
       <br>
-      <input [(ngModel)]="usuario.senha" name="senha" type="password" #senha="ngModel"
-             required id="senha" aria-describedby="senha" placeholder="Informe sua senha">
-      <input type="checkbox" class="ver-senha">
+      <input [(ngModel)]="usuario.senha" name="senha" type="password" #inputVerSenha #senha="ngModel"
+             required id="senha" aria-describedby="senha" placeholder="Informe sua senha" [ngClass]="{
+                  'is-invalid': f.submitted && senha.invalid}">
+      <div *ngIf="senha.invalid && f.submitted">
+        <p class="text-invalid">A senha é obrigatória!</p>
+      </div>
+      <input type="checkbox" class="ver-senha" (change)="verSenha(inputVerSenha)">
       <label class="ver-senha-label">Ver senha</label>
       <br>
       <br>
       <br>
-      <button type="submit" class="btn-cadastrar">Cadastrar-se</button>
-      <br>
-      <button (click)="voltar()" class="btn-voltar">Voltar</button>
-
+      <div class="btns">
+        <button type="submit" class="btn-cadastrar">Cadastrar-se</button>
+        <button (click)="voltar()" class="btn-voltar">Voltar</button>
+      </div>
     </form>
   </div>
 </div>

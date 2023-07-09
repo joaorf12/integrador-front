@@ -1,14 +1,14 @@
 <div id="caixa-pessoas">
   <div class="busca">
-    <input type="text" id="txtBusca" placeholder="Pesquise aqui..."/>
+    <input type="text" id="txtBusca" placeholder="Pesquise aqui..." (input)="pesquisa($event)"/>
     <img src="assets/img/icon-pesquisa.webp" id="iconBusca" alt="Buscar"/>
   </div>
   <div class="pessoas" *ngIf="pessoas.length == 0; else TemPessoas">
     <h2>Nenhuma pessoa encontrada</h2>
   </div>
   <ng-template #TemPessoas>
-    <div *ngFor="let pessoa of pessoas" class="perfil-pessoas">
-      <img class="img-perfil" src="assets/img/perfil.jpg" alt="Foto da pessoa">
+    <div *ngFor="let pessoa of pessoas" class="perfil-pessoas" (click)="mudarParaPessoa(pessoa)">
+      <img class="img-perfil" src="assets/img/{{pessoa.foto}}" alt="Foto da pessoa">
       <p>{{pessoa.nome}}</p>
     </div>
   </ng-template>

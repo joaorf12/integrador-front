@@ -112,10 +112,11 @@
 #iconOps:hover{
   cursor: pointer;
 }
+
 .dropbox{
   position: absolute;
   transition-duration: 0.4s;
-  background-color: #A5A5A5;
+  background-color: #1e1e1e;
   border-radius: 10px;
   margin-left: 85%;
   padding: 10px;
@@ -123,7 +124,30 @@
   scale: 0.00001;
   opacity: 0.00001;
   transition: 0.4s;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
 }
+
+.dropbox>a{
+  margin: 5px;
+  clear: both;
+}
+
+.line{
+  margin-bottom: 5px;
+  margin-top: 5px;
+  width: 100%;
+  border-bottom: #ffffff solid 1px;
+}
+
+.dropbox>a:hover{
+  margin: 5px;
+  clear: both;
+  cursor: pointer;
+}
+
 .show {
   scale: 1;
   opacity: 1;

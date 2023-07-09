@@ -22,7 +22,7 @@ export class LivrosService {
     this.livro = value;
   }
 
-  listar(){
-    return this.http.get<Livro[]>(this.API_BACK+'/livros');
+  listar(id: number){
+    return this.http.get<Livro[]>(this.API_BACK+'/livros/'+id);
   }
 }

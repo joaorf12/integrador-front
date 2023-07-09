@@ -17,7 +17,9 @@ export class ErrorHandlerService extends ErrorHandler{
     if (error instanceof HttpErrorResponse) {
       switch (error.status) {
         case 400:
-          alert('Usuario ou senha Incorretos')
+        {
+          this.router.navigate(['principal/prateleira']);
+        }
           break;
         case 500:
           alert("Token Expirado, por favor faça o login novamente");

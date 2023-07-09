@@ -2,7 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Usuario} from "../model/usuario";
 import {Router} from "@angular/router";
 import {LoginService} from "./login.service";
-import {NgForm} from "@angular/forms";
+import {NgForm, NgModel} from "@angular/forms";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ import {NgForm} from "@angular/forms";
 export class LoginComponent implements OnInit{
   usuario: Usuario = new Usuario();
 
-  constructor(private router: Router, private service: LoginService) {}
+  constructor(private router: Router, private service: LoginService, private toastr: ToastrService) {}
 
   ngOnInit() {
   }
@@ -21,6 +22,9 @@ export class LoginComponent implements OnInit{
     this.service.login(this.usuario).subscribe(u => {
       this.service.setarUsuarioLogado(u);
       this.router.navigate(['/principal/prateleira'])
+    },
+    ()=>{
+      this.toastr.error("Email ou senha incorretos!")
     })
   }
   saveLogin(form: NgForm){
@@ -29,5 +33,12 @@ export class LoginComponent implements OnInit{
   }
   cadastrar(){
     this.router.navigate(['/cadastrar'])
+  }
+
+  verSenha(input: HTMLInputElement){
+    if(input.type == "text")
+      input.type = "password"
+    else
+      input.type = "text"
   }
 }
